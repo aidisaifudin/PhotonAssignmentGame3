@@ -32,6 +32,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 
     public void OnBattleButtonClicked()
     {
+        Debug.Log("Battle Button was clicked");
         battleButton.SetActive(false);
         cancelButton.SetActive(true);
         PhotonNetwork.JoinRandomRoom();
@@ -47,10 +48,16 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 
     void CreateRoom()
     {
+        Debug.Log("Trying to create new room");
         int randomRoomName = Random.Range(0, 1000);
         RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 10 };
 
         PhotonNetwork.CreateRoom("Room" + randomRoomName, roomOps);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("We are now in a room");
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -62,6 +69,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 
    public void OnCancelButtonClicked()
     {
+        Debug.Log("Cancel button has been clicked");
         cancelButton.SetActive(false);
         battleButton.SetActive(true);
         PhotonNetwork.LeaveRoom();
